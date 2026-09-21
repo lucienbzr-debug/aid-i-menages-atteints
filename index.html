@@ -145,12 +145,12 @@ footer a{ color: var(--text-secondary); }
       <span class="delta flat">Cible : 245 000 exploitants</span>
     </div>
     <div class="kpi">
-      <span class="label">Part des femmes</span>
+      <span class="label">👩 Part des femmes</span>
       <span class="value">54,1 %</span>
       <span class="delta flat">141 537 femmes touchées</span>
     </div>
     <div class="kpi">
-      <span class="label">Part des jeunes (15–29 ans)</span>
+      <span class="label">🌱 Part des jeunes (15–29 ans)</span>
       <span class="value">22,7 %</span>
       <span class="delta flat">59 415 jeunes touchés</span>
     </div>
@@ -199,10 +199,11 @@ footer a{ color: var(--text-secondary); }
   <section class="grid-2">
     <div class="card">
       <p class="section-title">Nouveaux ménages atteints par trimestre</p>
-      <p class="section-note">Flux net de nouveaux ménages enregistrés à chaque trimestre (hors doublons). La croissance alterne entre trimestres de campagne (distribution d'intrants) et trimestres de consolidation.</p>
-      <div style="position:relative;height:250px;">
-        <canvas id="chartFlux" role="img" aria-label="Barres du nombre de nouveaux ménages atteints par trimestre, de 361 au T2 2023 à un pic de 78 082 au T2 2024.">Nouveaux ménages par trimestre : 2023T2 361, 2023T3 57 393, 2023T4 43 235, 2024T1 10 148, 2024T2 78 082, 2024T3 18 297, 2024T4 54 249.</canvas>
+      <p class="section-note">Part de chaque trimestre dans le total des nouveaux ménages enregistrés (hors doublons). La croissance alterne entre trimestres de campagne (distribution d'intrants) et trimestres de consolidation.</p>
+      <div style="position:relative;height:230px;">
+        <canvas id="chartFlux" role="img" aria-label="Graphique en secteurs de la répartition des nouveaux ménages atteints par trimestre, de 361 au T2 2023 à un pic de 78 082 au T2 2024.">Nouveaux ménages par trimestre : 2023T2 361, 2023T3 57 393, 2023T4 43 235, 2024T1 10 148, 2024T2 78 082, 2024T3 18 297, 2024T4 54 249.</canvas>
       </div>
+      <div class="legend" id="fluxLegend" style="margin-top:12px;"></div>
       <table class="data" style="margin-top:14px;">
         <thead><tr><th>Trimestre</th><th style="text-align:right">Croissance QoQ</th></tr></thead>
         <tbody>
@@ -219,15 +220,15 @@ footer a{ color: var(--text-secondary); }
       <p class="section-title">Profil des ménages atteints</p>
       <p class="section-note">Répartition par genre et par tranche d'âge du chef de ménage / participant.</p>
       <div class="legend">
-        <span><i class="dot" style="background:#2a78d6"></i>Femmes 54,1 %</span>
-        <span><i class="dot" style="background:#eb6834"></i>Hommes 45,9 %</span>
+        <span style="font-size:15px;">👩 Femmes 54,1 %</span>
+        <span style="font-size:15px;">👨 Hommes 45,9 %</span>
       </div>
       <div style="position:relative;height:110px;margin-bottom:18px;">
         <canvas id="chartGender" role="img" aria-label="Barre empilée : 54,1% de femmes et 45,9% d'hommes parmi les ménages atteints.">Genre : 141 537 femmes (54,1%), 120 228 hommes (45,9%).</canvas>
       </div>
       <div class="legend">
-        <span><i class="dot" style="background:#1baf7a"></i>15–29 ans 22,7 %</span>
-        <span><i class="dot" style="background:#4a3aa7"></i>30 ans et + 77,3 %</span>
+        <span style="font-size:15px;">🌱 15–29 ans 22,7 %</span>
+        <span style="font-size:15px;">🌳 30 ans et + 77,3 %</span>
       </div>
       <div style="position:relative;height:110px;">
         <canvas id="chartAge" role="img" aria-label="Barre empilée : 22,7% de jeunes de 15 à 29 ans et 77,3% de personnes de 30 ans et plus.">Âge : 59 415 jeunes 15-29 ans (22,7%), 202 350 personnes de 30 ans et plus (77,3%).</canvas>
@@ -238,8 +239,12 @@ footer a{ color: var(--text-secondary); }
   <section class="grid-2">
     <div class="card">
       <p class="section-title">Répartition géographique</p>
-      <p class="section-note">Ménages atteints par territoire, province du Sud-Kivu.</p>
-      <div class="barlist" id="territoryList"></div>
+      <p class="section-note">Ménages atteints par territoire, province du Sud-Kivu (RDC). Taille des bulles proportionnelle au nombre de ménages.</p>
+      <div id="mapWrap" style="position:relative;">
+        <svg id="mapSvg" viewBox="0 0 480 460" style="width:100%;height:auto;display:block;" role="img" aria-label="Carte de la RDC avec la province du Sud-Kivu mise en évidence et des bulles proportionnelles au nombre de ménages atteints dans chacun de ses 7 territoires : Uvira 88 619, Kalehe 51 841, Walungu 50 501, Kabare 46 285, Mwenga 13 725, Idjwi 10 277, Fizi 517."></svg>
+        <p id="mapFallback" class="section-note" style="display:none;margin-top:8px;">Carte indisponible hors connexion — voir le détail chiffré ci-dessous.</p>
+      </div>
+      <div class="barlist" id="territoryList" style="margin-top:14px;"></div>
     </div>
     <div class="card">
       <p class="section-title">Partenaires de mise en œuvre</p>
@@ -326,6 +331,8 @@ footer a{ color: var(--text-secondary); }
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
 function isDark(){
   var t = document.documentElement.getAttribute('data-theme');
@@ -340,6 +347,7 @@ var muted = '#898781';
 var grid = dark ? '#2c2c2a' : '#e1e0d9';
 var surface = dark ? '#1b1f20' : '#ffffff';
 var accent = dark ? '#4fb583' : '#1d7a4c';
+var accentStrong = dark ? '#6fcb9c' : '#14603a';
 var accentFill = dark ? 'rgba(79,181,131,0.16)' : 'rgba(29,122,76,0.10)';
 var amber = dark ? '#e2ac5c' : '#b06a13';
 var blue = dark ? '#3987e5' : '#2a78d6';
@@ -355,10 +363,10 @@ var flux = [361,57393,43235,10148,78082,18297,54249];
 var target = 245000;
 
 new Chart(document.getElementById('chartCumul'), {
-  type:'line',
+  type:'bar',
   data:{ labels:qLabels, datasets:[
-    { label:'Cumul de ménages atteints', data:cumul, borderColor:accent, backgroundColor:accentFill, fill:true, tension:0.3, borderWidth:2, pointRadius:3, pointBackgroundColor:accent, pointBorderColor:surface, pointBorderWidth:2 },
-    { label:'Cible FY23-24 (245 000)', data:qLabels.map(function(){return target;}), borderColor:amber, borderDash:[6,5], borderWidth:1.5, pointRadius:0, fill:false }
+    { type:'bar', label:'Cumul de ménages atteints', data:cumul, backgroundColor:accent, borderRadius:4, maxBarThickness:46, order:2 },
+    { type:'line', label:'Cible FY23-24 (245 000)', data:qLabels.map(function(){return target;}), borderColor:amber, borderDash:[6,5], borderWidth:1.5, pointRadius:0, fill:false, order:1 }
   ]},
   options:{ responsive:true, maintainAspectRatio:false,
     interaction:{ mode:'index', intersect:false },
@@ -372,19 +380,24 @@ new Chart(document.getElementById('chartCumul'), {
   }
 });
 
+var fluxColors = [blue, orange, '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7'];
 new Chart(document.getElementById('chartFlux'), {
-  type:'bar',
-  data:{ labels:qLabels, datasets:[{ label:'Nouveaux ménages', data:flux, backgroundColor:blue, borderRadius:4, maxBarThickness:34 }] },
-  options:{ responsive:true, maintainAspectRatio:false,
+  type:'doughnut',
+  data:{ labels:qLabels, datasets:[{ label:'Nouveaux ménages', data:flux, backgroundColor:fluxColors, borderColor:surface, borderWidth:2 }] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
     plugins:{ legend:{ display:false },
       tooltip:{ backgroundColor:surface, titleColor:ink, bodyColor:inkSecondary, borderColor:grid, borderWidth:1, padding:10,
-        callbacks:{ label:function(ctx){ return ctx.parsed.y.toLocaleString('fr-FR')+' ménages'; } } } },
-    scales:{
-      y:{ beginAtZero:true, grid:{ color:grid }, ticks:{ color:muted, callback:function(v){ return (v/1000)+'k'; } } },
-      x:{ grid:{ display:false }, ticks:{ color:muted } }
-    }
+        callbacks:{ label:function(ctx){ var pct=(ctx.parsed/261765*100).toFixed(1); return ctx.label+': '+ctx.parsed.toLocaleString('fr-FR')+' ('+pct+' %)'; } } } }
   }
 });
+(function(){
+  var total = flux.reduce(function(a,b){return a+b;},0);
+  var el = document.getElementById('fluxLegend');
+  el.innerHTML = qLabels.map(function(q,i){
+    var pct = (flux[i]/total*100).toFixed(1).replace('.',',');
+    return '<span><i class="dot" style="background:'+fluxColors[i]+'"></i>'+q+' — '+pct+' %</span>';
+  }).join('');
+})();
 
 function stackedBar(id, segments){
   new Chart(document.getElementById(id), {
@@ -477,6 +490,65 @@ renderPctBarList('genderPartnerList', [
   {name:'Seed Systems Group', pct:18.3},
   {name:'CIP', pct:17.1}
 ], 54.1, blue);
+
+var territoryData = [
+  {name:'Uvira', value:88619, lon:29.133, lat:-3.250},
+  {name:'Kalehe', value:51841, lon:28.458, lat:-2.104},
+  {name:'Walungu', value:50501, lon:28.600, lat:-2.660},
+  {name:'Kabare', value:46285, lon:28.800, lat:-2.500},
+  {name:'Mwenga', value:13725, lon:28.433, lat:-3.050},
+  {name:'Idjwi', value:10277, lon:29.034, lat:-2.097},
+  {name:'Fizi', value:517, lon:28.944, lat:-4.301}
+];
+
+(function(){
+  var svg = d3.select('#mapSvg');
+  var W = 480, H = 460;
+  d3.json('https://cdn.jsdelivr.net/npm/datamaps@0.5.10/src/js/data/cod.topo.json').then(function(topo){
+    var provinces = topojson.feature(topo, topo.objects.cod);
+    var sudKivu = provinces.features.filter(function(d){ return d.properties.name === 'Sud-Kivu'; })[0];
+    var projection = d3.geoMercator().fitExtent([[10,10],[W-10,H-10]], sudKivu || provinces);
+    var path = d3.geoPath(projection);
+
+    svg.append('g').selectAll('path')
+      .data(provinces.features)
+      .join('path')
+      .attr('d', path)
+      .attr('fill', function(d){ return d.properties.name === 'Sud-Kivu' ? accent : surface1(); })
+      .attr('stroke', dark ? '#2c2c2a' : '#e1e0d9')
+      .attr('stroke-width', 1)
+      .append('title')
+      .text(function(d){ return d.properties.name; });
+
+    var radius = d3.scaleSqrt().domain([0, 88619]).range([3, 26]);
+    var bubbles = svg.append('g').selectAll('g')
+      .data(territoryData)
+      .join('g')
+      .attr('transform', function(d){ var p = projection([d.lon, d.lat]); return 'translate(' + p[0] + ',' + p[1] + ')'; });
+
+    bubbles.append('circle')
+      .attr('r', function(d){ return radius(d.value); })
+      .attr('fill', accentStrong)
+      .attr('fill-opacity', 0.82)
+      .attr('stroke', surface)
+      .attr('stroke-width', 1.5);
+
+    bubbles.append('title')
+      .text(function(d){ return d.name + ' : ' + d.value.toLocaleString('fr-FR') + ' ménages'; });
+
+    bubbles.filter(function(d){ return d.value > 13000; }).append('text')
+      .text(function(d){ return d.name; })
+      .attr('text-anchor', 'middle')
+      .attr('dy', function(d){ return -radius(d.value) - 5; })
+      .attr('font-size', 11)
+      .attr('font-family', "'Inter', system-ui, sans-serif")
+      .attr('font-weight', 500)
+      .attr('fill', ink);
+  }).catch(function(){
+    document.getElementById('mapFallback').style.display = 'block';
+  });
+  function surface1(){ return dark ? '#202524' : '#f5f4ee'; }
+})();
 
 renderBarList('cropList', [
   {name:'Maïs', value:75897},
