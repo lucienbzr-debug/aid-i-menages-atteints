@@ -1,0 +1,9 @@
+{
+  "leverage_ratio": 31.5,
+  "farmers": 252795,
+  "lead_farmers": 8013,
+  "avg_crops_per_hh": 1.12,
+  "avg_tech_per_hh": 1.58,
+  "hh_with_input_pct": 66.2,
+  "hh_sensitization_only_pct": 33.8
+}

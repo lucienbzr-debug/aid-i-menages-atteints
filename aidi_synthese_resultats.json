@@ -1,0 +1,114 @@
+{
+  "total_unique_households": 261765,
+  "target_farmers_fy2324": 245000,
+  "gender": {
+    "Female": 141537,
+    "Male": 120228
+  },
+  "age": {
+    "30+": 202350,
+    "15_29": 59415
+  },
+  "age_gender": {
+    "15_29": {
+      "Female": 37340,
+      "Male": 22075
+    },
+    "30+": {
+      "Female": 104197,
+      "Male": 98153
+    }
+  },
+  "participant_type": {
+    "Farmers": 252795,
+    "Lead farmers": 8013,
+    "NGO staff": 345,
+    "Government extension services staff": 318,
+    "Private organization staff": 294
+  },
+  "territory": {
+    "Uvira": 88619,
+    "Kalehe": 51841,
+    "Walungu": 50501,
+    "Kabare": 46285,
+    "Mwenga": 13725,
+    "Idjwi": 10277,
+    "Fizi": 517
+  },
+  "partner": {
+    "SARCAF": 92353,
+    "Rikolto": 88010,
+    "VSF": 78184,
+    "IITA": 2160,
+    "World_Vegetable_Center": 877,
+    "CIAT": 80,
+    "Seed Systems Group": 60,
+    "CIP": 41
+  },
+  "crop": {
+    "Maize": 75897,
+    "Beans": 75601,
+    "Rice": 21474,
+    "Cassava": 11773,
+    "Ofsp": 7143,
+    "Forage": 6323,
+    "Vegetables": 6250,
+    "Banana": 1468,
+    "Other": 60
+  },
+  "events": {
+    "inputs_distribution": 128650,
+    "sensitization_event": 63484,
+    "inputs_distribution_sensitization": 44389,
+    "training_event": 15678,
+    "field_day": 4695,
+    "IVR": 2518,
+    "demonstration_training": 1349,
+    "sensitization_event inputs_distribution": 980,
+    "field_day demonstration_training": 22
+  },
+  "trend": [
+    {
+      "quarter": "2023q2",
+      "new_households": 361,
+      "cumulative_households": 361,
+      "label": "2023 Q2"
+    },
+    {
+      "quarter": "2023q3",
+      "new_households": 57393,
+      "cumulative_households": 57754,
+      "label": "2023 Q3"
+    },
+    {
+      "quarter": "2023q4",
+      "new_households": 43235,
+      "cumulative_households": 100989,
+      "label": "2023 Q4"
+    },
+    {
+      "quarter": "2024q1",
+      "new_households": 10148,
+      "cumulative_households": 111137,
+      "label": "2024 Q1"
+    },
+    {
+      "quarter": "2024q2",
+      "new_households": 78082,
+      "cumulative_households": 189219,
+      "label": "2024 Q2"
+    },
+    {
+      "quarter": "2024q3",
+      "new_households": 18297,
+      "cumulative_households": 207516,
+      "label": "2024 Q3"
+    },
+    {
+      "quarter": "2024q4",
+      "new_households": 54249,
+      "cumulative_households": 261765,
+      "label": "2024 Q4"
+    }
+  ]
+}

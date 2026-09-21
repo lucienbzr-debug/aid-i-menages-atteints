@@ -1,0 +1,21 @@
+# Exports bruts sources : contiennent des données personnelles identifiantes
+# (nom, téléphone, géolocalisation précise) sur des ménages réels — ne jamais
+# versionner, a fortiori sur un dépôt public.
+Rikolto_*.xlsx
+
+# Base consolidée .dta : 106 Mo, dépasse la limite dure de GitHub (100 Mo).
+# Exclue par défaut ; ne la versionner que via Git LFS (`git lfs track "*.dta"`).
+aidi_menages_base_consolidee.dta
+
+# Version PDF intermédiaire remplacée par la version "_complet" (8 pages,
+# section 10 "Analyses approfondies pour l'argumentaire bailleurs") ; conservée
+# localement mais non versionnée pour éviter la confusion entre deux rapports.
+Rapport_AID-I_Menages_Atteints.pdf
+
+# Sorties de traitement locales
+*.log
+*.pkl
+page-*.jpg
+
+# Etat local de l'outil Claude Code (non lie au contenu du projet)
+.claude/
