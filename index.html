@@ -353,14 +353,26 @@ var amber = dark ? '#e2ac5c' : '#b06a13';
 var blue = dark ? '#3987e5' : '#2a78d6';
 var orange = dark ? '#d95926' : '#eb6834';
 
-Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
-Chart.defaults.color = inkSecondary;
-Chart.defaults.borderColor = grid;
-
 var qLabels = ['2023 T2','2023 T3','2023 T4','2024 T1','2024 T2','2024 T3','2024 T4'];
 var cumul = [361,57754,100989,111137,189219,207516,261765];
 var flux = [361,57393,43235,10148,78082,18297,54249];
 var target = 245000;
+var fluxColors = [blue, orange, '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7'];
+
+try {
+  var total = flux.reduce(function(a,b){return a+b;},0);
+  var el = document.getElementById('fluxLegend');
+  el.innerHTML = qLabels.map(function(q,i){
+    var pct = (flux[i]/total*100).toFixed(1).replace('.',',');
+    return '<span><i class="dot" style="background:'+fluxColors[i]+'"></i>'+q+' — '+pct+' %</span>';
+  }).join('');
+} catch(e) { console.error(e); }
+
+try {
+
+Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+Chart.defaults.color = inkSecondary;
+Chart.defaults.borderColor = grid;
 
 new Chart(document.getElementById('chartCumul'), {
   type:'bar',
@@ -380,7 +392,6 @@ new Chart(document.getElementById('chartCumul'), {
   }
 });
 
-var fluxColors = [blue, orange, '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7'];
 new Chart(document.getElementById('chartFlux'), {
   type:'doughnut',
   data:{ labels:qLabels, datasets:[{ label:'Nouveaux ménages', data:flux, backgroundColor:fluxColors, borderColor:surface, borderWidth:2 }] },
@@ -390,14 +401,6 @@ new Chart(document.getElementById('chartFlux'), {
         callbacks:{ label:function(ctx){ var pct=(ctx.parsed/261765*100).toFixed(1); return ctx.label+': '+ctx.parsed.toLocaleString('fr-FR')+' ('+pct+' %)'; } } } }
   }
 });
-(function(){
-  var total = flux.reduce(function(a,b){return a+b;},0);
-  var el = document.getElementById('fluxLegend');
-  el.innerHTML = qLabels.map(function(q,i){
-    var pct = (flux[i]/total*100).toFixed(1).replace('.',',');
-    return '<span><i class="dot" style="background:'+fluxColors[i]+'"></i>'+q+' — '+pct+' %</span>';
-  }).join('');
-})();
 
 function stackedBar(id, segments){
   new Chart(document.getElementById(id), {
@@ -413,6 +416,8 @@ function stackedBar(id, segments){
 }
 stackedBar('chartGender', [ {label:'Femmes', value:141537, color:blue}, {label:'Hommes', value:120228, color:orange} ]);
 stackedBar('chartAge', [ {label:'15-29 ans', value:59415, color:'#1baf7a'}, {label:'30 ans et +', value:202350, color:'#4a3aa7'} ]);
+
+} catch(e) { console.error('Chart.js indisponible :', e); }
 
 function renderBarList(elId, rows, color){
   var max = Math.max.apply(null, rows.map(function(r){return r.value;}));
@@ -502,6 +507,7 @@ var territoryData = [
 ];
 
 (function(){
+  try {
   var svg = d3.select('#mapSvg');
   var W = 480, H = 460;
   d3.json('https://cdn.jsdelivr.net/npm/datamaps@0.5.10/src/js/data/cod.topo.json').then(function(topo){
@@ -548,6 +554,11 @@ var territoryData = [
     document.getElementById('mapFallback').style.display = 'block';
   });
   function surface1(){ return dark ? '#202524' : '#f5f4ee'; }
+  } catch(e) {
+    console.error('Carte indisponible :', e);
+    var fb = document.getElementById('mapFallback');
+    if (fb) fb.style.display = 'block';
+  }
 })();
 
 renderBarList('cropList', [
